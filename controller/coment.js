@@ -1,9 +1,9 @@
 const { comments, Post, User } = require("../models");
 
-const pushComment = (req, res) => {
+const pushComment = async (req, res) => {
   const { text } = req.body;
 
-  const data = comments.create({
+  const data = await comments.create({
     text: text,
     userId: req.headers.userId,
     postId: req.params.id,
@@ -32,6 +32,20 @@ const showComent = async (req, res) => {
 
   res.json(data);
 };
+const showCommentByPost = async (req,res)=>{
+  const postData = await comments.findAll({
+    where:{
+      postId:req.params.id
+    },
+    include:[
+      {
+        model:User,
+      }
+    ]
+  }
+  )
+  res.json(postData)
+  }
 
 const deleteComment = (req, res) => {
 
@@ -46,4 +60,4 @@ const deleteComment = (req, res) => {
     msg: "deleted..",
   });
 };
-module.exports = { pushComment, showComent, deleteComment };
+module.exports = { pushComment, showComent, deleteComment,showCommentByPost };
