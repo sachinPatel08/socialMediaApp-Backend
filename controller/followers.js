@@ -28,6 +28,25 @@ const savefollow = async (req, res, next) => {
     res.status(401).json({ error: { msg: "something went wrong.." } });
   }
 };
+const checkFollower =  async (req,res) =>{
+  const UserId = req.headers.userId;
+  const followed = await Followers.findAll({
+    where: { UserId },
+    include: [
+      {
+        model: User,
+      },
+    ],
+  });
+if(followed.some((followed) => followed.followerId == req.params.id)){
+  res.json(true)
+}else{
+  res.json(false)
+}
+
+
+}
+ 
 const showFollower = async (req, res, next) => {
   //     const data = User.findByPk(req.headers.userId, {
   //     include: [{
@@ -39,11 +58,9 @@ const showFollower = async (req, res, next) => {
   const UserId = req.headers.userId;
   const followed = await Followers.findAll({
     where: { UserId },
-    attributes: ["id","followerId"],
     include: [
       {
         model: User,
-        attributes: ["userName", "email", "createdAt"],
       },
     ],
   });
@@ -59,7 +76,7 @@ const unFollow = async (req, res, next) => {
     attributes: ["followerId"],
   });
 
-  if (followed.some((followed) => followed.followerId == req.params.id)) {
+  if (followed.find((followed) => followed.followerId == req.params.id)) {
     Followers.destroy({
       where: {
         userId: req.headers.userId,
@@ -75,4 +92,4 @@ const unFollow = async (req, res, next) => {
 
   res.json(followed);
 };
-module.exports = { savefollow, showFollower, unFollow };
+module.exports = { savefollow, showFollower, unFollow, checkFollower };

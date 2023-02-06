@@ -13,14 +13,14 @@ route.post('/login', userController.login);
 
 route.post('/register',validator.register() ,userController.register)
 // route.get('/show' ,auth ,userController.show)
-route.get('/show',auth , userController.showById)
+route.get('/show/:id',auth , userController.showById)
 route.put('/update',auth , userController.update)
 route.get('/getUser/:id',auth , userController.getUser)
 route.delete('/delete',auth , userController.delet)
 
 
 
-route.post('/logout',auth,userController.logout)
+route.delete('/logout',auth,userController.logout)
 
 module.exports = route
 

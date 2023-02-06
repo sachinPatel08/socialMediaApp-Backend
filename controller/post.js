@@ -26,7 +26,7 @@ const showPost = async (req, res) => {
   try {
     const posts = await Post.findAll({
       attributes: ["title", "content", "id"],
-      include: [{ model: User, attributes: ["userName"] }],
+      include: [{ model: User, attributes: ["userName","id"] }],
     });
 
     return res.status(200).json(posts);

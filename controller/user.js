@@ -35,9 +35,10 @@ const register = async (req, res, next) => {
 const showById = async (req, res) => {
   const data = await User.findOne({
     where: {
-      id: req.headers.userId,
-    },
-    attributes: ["UserName", "email", "createdAt", "updatedAt"],
+      // id: req.headers.userId,
+      id: req.params.id,
+    }
+    // attributes: ["UserName", "email", "createdAt", "updatedAt"],
   });
   // const data = await User.findAll({include: [{model:session}] })
 
@@ -132,7 +133,7 @@ const login = async (req, res, next) => {
   } 
 };
 
-const logout = async (req, res, next) => {
+const  logout = async (req, res, next) => {
   try {
     await session.destroy({
       where: { token: req.headers["token"] },
