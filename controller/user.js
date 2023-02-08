@@ -149,9 +149,9 @@ const  logout = async (req, res, next) => {
 };
 
 const getUser = async (req,res)=>{
-const data = User.findAll({where:{
-  'id':req.params.id
+const data = await User.findOne({where:{
+  "id":req.headers.userId
 }})
-console.log(data)
+res.json(data)
 }
 module.exports = { register, showById, update, delet, login, logout ,getUser};

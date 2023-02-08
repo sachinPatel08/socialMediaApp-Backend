@@ -1,7 +1,6 @@
 const { Post, User } = require("../models");
 const { validationResult } = require("express-validator");
 
-
 const createPost = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -26,9 +25,9 @@ const showPost = async (req, res) => {
   try {
     const posts = await Post.findAll({
       attributes: ["title", "content", "id"],
-      include: [{ model: User, attributes: ["userName","id"] }],
+      include: [{ model: User, attributes: ["userName", "id"] }],
     });
-
+      
     return res.status(200).json(posts);
   } catch (err) {
     console.log(err);
@@ -37,20 +36,17 @@ const showPost = async (req, res) => {
 };
 const postById = async (req, res) => {
   // const data = await User.findByPk(req.headers.userId, {
-  //   attributes: ["UserName", "email", "createdAt"],
-  //   include: [
-  //     {
-  //       model: Post,
-  //       attributes: ["title", "content", "id"],
-  //     },
-  //   ],
-  // });
+
   const data = await Post.findAll({
-    where:{
-      userId:req.headers.userId,
-    }
-  })
-  
+    where: {
+      userId: req.headers.userId,
+    },
+    include: [
+      {
+        model: User,
+      },
+    ],
+  });
 
   res.json(data);
 };
@@ -122,15 +118,27 @@ const delet = async (req, res) => {
   }
 };
 
-const getSingalPost = async (req,res)=>{
+const getSingalPost = async (req, res) => {
   
   const data = await Post.findOne({
-    where:{
-      id:req.params.id
+    where: {
+      id: req.params.id,
     },
-    include: [{ model: User }],
-  })
-  res.json(data)
-}
+    include:[{model:User}]
+  });
+  
+  try {
+    await res.json(data);
+  } catch (error) {
+    res.send(error);
+  }
+};
 
-module.exports = { createPost, postById, update, delet, showPost,getSingalPost};
+module.exports = {
+  createPost,
+  postById,
+  update,
+  delet,
+  showPost,
+  getSingalPost,
+};
