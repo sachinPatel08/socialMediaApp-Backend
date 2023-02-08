@@ -1,5 +1,5 @@
 // const { json } = require('body-parser');
-const { User, session } = require("../models");
+const { User, session,Post } = require("../models");
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 
@@ -35,7 +35,6 @@ const register = async (req, res, next) => {
 const showById = async (req, res) => {
   const data = await User.findOne({
     where: {
-      // id: req.headers.userId,
       id: req.params.id,
     }
     // attributes: ["UserName", "email", "createdAt", "updatedAt"],
