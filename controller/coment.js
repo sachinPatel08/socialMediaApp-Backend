@@ -47,17 +47,31 @@ const showCommentByPost = async (req,res)=>{
   res.json(postData)
   }
 
-const deleteComment = (req, res) => {
+const deleteComment =async (req, res) => {
 
+  const val = await comments.findOne({
+    where:{
+      id: req.params.id,
+      userId:req.headers.userId
+    }
+  })
 
-  const data = comments.destroy({
+  const data = await comments.destroy({
     where: {
       id: req.params.id,
       userId:req.headers.userId
     },
   });
-  res.json({
-    msg: "deleted..",
-  });
+  res.json(val);
 };
-module.exports = { pushComment, showComent, deleteComment,showCommentByPost };
+
+const checkComment = ()=>{
+const data = Comment.findOne(
+  {
+    where:{
+      
+    }
+  }
+)
+}
+module.exports = { pushComment, showComent, deleteComment,showCommentByPost,checkComment };

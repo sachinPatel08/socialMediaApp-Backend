@@ -9,5 +9,6 @@ router.get('/showComment',auth,useController.showComent)
 // router.get('/showComment/:id',auth,useController.showComById)
 router.get('/showCommentByPost/:id',auth,useController.showCommentByPost)
 router.delete('/deleteComment/:id',auth,useController.deleteComment)
+router.get('/checkComment/:id',auth,useController.checkComment)
 
 module.exports = router;

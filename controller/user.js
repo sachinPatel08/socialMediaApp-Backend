@@ -42,7 +42,7 @@ const showById = async (req, res) => {
   // const data = await User.findAll({include: [{model:session}] })
 
   try {
-    await res.json(data);
+    res.json(data);
   } catch (error) {
     res.send(error);
   }
